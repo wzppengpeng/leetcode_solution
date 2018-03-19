@@ -12,6 +12,7 @@ Given "abcabcbb", the answer is "abc", which the length is 3.
  *Solution:
  * 使用hash_map来保存value和index的映射，然后用two point来查看区间内元素，不过目前依然存在很多不必要的重复查看，需要优化
  *
+ * 最优解：使用数组替换哈希表，并且其实至于要记录上一次该字符出现的最后位置即可，每一次都进行最大值记录
  */
 
 class Solution {
@@ -35,6 +36,18 @@ public:
             }
         }
         return max(res, j - i);
+    }
+
+    int lengthOfLongestSubstring(string s) {
+        vector<int> dict(256, -1);
+        int maxLen = 0, start = -1;
+        for (int i = 0; i != s.length(); i++) {
+            if (dict[s[i]] > start)
+                start = dict[s[i]];
+            dict[s[i]] = i;
+            maxLen = max(maxLen, i - start);
+        }
+        return maxLen;
     }
 
 private:
