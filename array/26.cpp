@@ -28,3 +28,23 @@ public:
         return nums.size();
     }
 };
+
+/**
+ * 正确解法，快排的partion,从左往右进行交换
+ */
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+        if(nums.size() < 2) return nums.size();
+        int i = 0, j = 1;
+        int pre = nums[i];
+        while(j < nums.size()) {
+            if(nums[j] != pre) {
+                std::swap(nums[++i], nums[j]);
+                pre = nums[i];
+            }
+            ++j;
+        }
+        return i + 1;
+    }
+};
