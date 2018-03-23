@@ -6,6 +6,7 @@ Each time you can either climb 1 or 2 steps. In how many distinct ways can you c
 
 /**
  * 解空间为线性空间，递推关系很简单，就是前一个和前前一个数量的和，所以可以最简单化代码
+ * fei bo na qie shulie
  */
 
 
