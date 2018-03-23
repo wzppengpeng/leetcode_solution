@@ -28,3 +28,20 @@ public:
         return max_sum_val;
     }
 };
+
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        if(nums.empty()) return 0;
+        int sum = nums.front(), tmp = 0;
+        for(auto n : nums) {
+            if(tmp < 0) {
+                tmp = n;
+            } else {
+                tmp += n;
+            }
+            sum = std::max(sum, tmp);
+        }
+        return sum;
+    }
+};
