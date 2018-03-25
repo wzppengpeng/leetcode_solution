@@ -56,3 +56,23 @@ private:
     }
 
 };
+
+
+/**
+ * 也可以看成动态规划问题，就是在已经有的答案里面，依次加上当前数，可以组成新的答案
+ */
+class Solution {
+public:
+    vector<vector<int>> subsets(vector<int>& nums) {
+        vector<vector<int>> res {{}};
+        for(auto n : nums) {
+            auto tmp_size = res.size();
+            for(size_t i = 0; i < tmp_size; ++i) {
+                auto tmp = res[i];
+                tmp.emplace_back(n);
+                res.emplace_back(std::move(tmp));
+            }
+        }
+        return res;
+    }
+};
