@@ -81,3 +81,29 @@ class Solution {
             return ones;
         }
     };
+
+/**
+ * 更通用的解法：统计各个位置1的个数，然后加起来
+ * 与3的余数即可得到该数字
+ */
+class Solution {
+public:
+    int singleNumber(vector<int>& nums) {
+        if(nums.empty()) return 0;
+        vector<int> record(32, 0);
+        for(auto n : nums) {
+            int mask = 1;
+            for(int i = 31; i >= 0; --i) {
+                auto bit = mask & n;
+                record[i] += (bit != 0 ? 1 : 0);
+                mask = mask << 1;
+            }
+        }
+        int res = 0;
+        for(int i = 0; i < 32; ++i) {
+            res = res << 1;
+            res |= (record[i] % 3);
+        }
+        return res;
+    }
+};
