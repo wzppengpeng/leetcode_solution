@@ -1,0 +1,94 @@
+/**
+ * Sort a linked list in O(n log n) time using constant space complexity.
+ */
+
+/**
+ * 快排版本，但是对于很长的过不了（最坏情况）
+ */
+class Solution {
+public:
+    ListNode* sortList(ListNode* head) {
+        if(!head || !head->next) return head;
+        ListNode* tail = head;
+        while(tail) {
+            tail = tail->next;
+        }
+        qsort(head, tail);
+        return head;
+    }
+
+    void qsort(ListNode* h, ListNode* t) {
+        if(h == t) return;
+        auto* pivot = partion(h, t);
+        qsort(h, pivot);
+        qsort(pivot->next, t);
+    }
+
+    ListNode* partion(ListNode* h, ListNode* t) {
+        ListNode* p = h, *q = h->next;
+        auto pivot = p->val;
+        while(q != t) {
+            if(q->val < pivot) {
+                p = p->next;
+                std::swap(p->val, q->val);
+            }
+            q = q->next;
+        }
+        std::swap(h->val, p->val);
+        return p;
+    }
+};
+
+/**
+ * 归并排序版本，用快慢指针找中点
+ */
+class Solution {
+public:
+    ListNode* sortList(ListNode* head) {
+        if (head == NULL || head->next == NULL)
+            return head;
+        
+        ListNode* slow = head;
+        ListNode* fast = head->next;
+        
+        while (fast != NULL && fast->next != NULL)
+        {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        //divide the list into two parts 
+        fast = slow->next;
+        slow->next = NULL;
+        
+        return merge(sortList(head), sortList(fast));
+    }
+    
+    ListNode* merge(ListNode* l1, ListNode* l2)
+    {
+        ListNode dump(0);
+        ListNode* cur = &dump;
+        
+        while (l1 != NULL && l2 != NULL)
+        {
+            if (l1->val < l2->val)
+            {
+                cur->next = l1;
+                l1 = l1->next;
+            }
+            else
+            {
+                cur->next = l2;
+                l2 = l2->next;
+            }
+                
+            cur = cur->next;
+        }
+        
+        if (l1 != NULL)
+            cur->next = l1;
+        else
+            cur->next = l2;
+            
+        return dump.next;
+    }
+};
